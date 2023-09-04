@@ -44,9 +44,7 @@ function listCity () {
 
 
 We need to have a renderDivs function
-    for all queries data, create list el with text will display:
-    the city's weather for the current day pops up with city name / date / emoji to match
-    the city's weather for the next 5 days pops up with date / emoji to match the weather
+    for all queries data, create:
 
     if current day,
     create current day card element
@@ -55,10 +53,10 @@ We need to have a renderDivs function
     append the current day card element to the head empty card container
     create list el of city data:
     -Date
-    -emoji
-    -Temp:
-    -Wind:
-    -Humidity:
+    -Emoji-weather attribute-sunny, cloudy, rainy, etc
+    -Temp: ____ F
+    -Wind: __ MPH
+    -Humidity: __%
     display: text from data API fetch call
     append to the individual card
     
@@ -69,10 +67,10 @@ We need to have a renderDivs function
     append the 5 day cards element to the 5 card empty container
     create list el of city data:
     -Date
-    -emoji
-    -Temp:
-    -Wind:
-    -Humidity:
+    -Emoji-weather attribute-sunny, cloudy, rainy, etc
+    -Temp: ____ F
+    -Wind: __ MPH
+    -Humidity: __%
     display: text from data API fetch call
     append to each individual card
 
