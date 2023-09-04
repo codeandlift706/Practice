@@ -11,16 +11,16 @@ const fiveCardContainer = document.querySelector(".fiveCardContainer");
 //WE WILL CREATE A CARD EL AND APPEND TO THIS
 
 const cityInformationContainer = document.querySelector(".cityInformationContainer");
-//WE WILL CREATE AND APPEND LIST EL TO THIS - DISPLAY TEMP, HUMIDITY, ETC
+//WE WILL CREATE AND APPEND LIST EL TO THIS - DISPLAY DATE, TEMP, WIND, HUMIDITY
+
+const APIKey = "1df7696f823ad8cc7efbb5f9a31ff2b8"
+
+const requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid=APIKey&units=imperial"
+
+const cityNameSearch =
+//THIS IS 5 DAY FORECAST - REQUEST BY CITY NAME
+
 /*
-
-
-
-
-card - that'll hold the date, temp, wind, humidity
-empty card container for selected city, current day
-empty card container for 5 day
-empty list container for generated cities
 base URL: https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 var APIKey = "1df7696f823ad8cc7efbb5f9a31ff2b8"
 https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
@@ -28,6 +28,24 @@ var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&ap
 
 fetch(queryURL)
 Remember that the query URL won't work automatically as it's written. You'll need to adjust your application to accept user input, to store in the city variable that you've created.
+
+For city:
+city.name
+
+For temperature: in Fahrenheit 
+list.main.temp
+units=imperial
+
+For wind speed: 
+list.wind.speed
+use units=imperial
+
+For humidity=
+list.main.humidity
+
+For symbol=
+list.weather.icon
+
 
 -----------------------------------------------------------------------------------------------
 */
