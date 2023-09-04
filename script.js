@@ -13,7 +13,6 @@ var searchButton = querySelector("#searchBtn");
 fetch(queryURL)
 Remember that the query URL won't work automatically as it's written. You'll need to adjust your application to accept user input, to store in the city variable that you've created.
 
-
 -----------------------------------------------------------------------------------------------
 */
 //Functions - tell your sibling what the items on the page do
@@ -21,7 +20,7 @@ Remember that the query URL won't work automatically as it's written. You'll nee
 
 We need an observe button clicks behavior
     when you input text in the form bar-captures the input field value
-    plug our input field value into a fetch call-the searched city name will appear underneath as a list element
+    plug our input field value into a fetch call-dynamically display results-the searched city name will appear underneath as a list element
 
     create li element
     attach attribute
@@ -30,27 +29,42 @@ We need an observe button clicks behavior
 
 function searchCity () {
 
+}
 
 
+We need to have the list item click handler function
+    we'll need to give this function the data from the fetch/API call
+    when you click on a list item that populated
+    pass this info to the page url as query string
 
+
+function listCity () {
 
 }
 
 
-We need to have the list item click handler
-    when you click on a list item that populated
-    pass this info to the page url as query string
+We need to have a renderDivs function
+    for all queries data, build a list item/card
+    text will display:
     the city's weather for the current day pops up with city name / date / emoji to match
     the city's weather for the next 5 days pops up with date / emoji to match the weather
 
-    create current day card element
-    attach header element?
+    if current day,
+    create current day card element for list element - on separate line
+    attach header element? 
+    update text content to show
     append the current day card element to the head empty card container
     
-    create the 5 day cards element
+    if not current day,
+    create the 5 day cards for list element - inline
     attach h3 element? 
+    update text to show
     append the 5 day cards element to the 5 card empty container
 
+    
+function displayCityInfo () {
+
+}
 
 
 -----------------------------------------------------------------------------------------------
@@ -58,7 +72,7 @@ We need to have the list item click handler
 //Processes - how the items on the page will execute
 /*
 
-target the search button, listen for submit run the first function
+target the search button, listen for submit to run the first function
 on the click event, make API call to fetch data from the city
 so that the city/geographical pops up
 the previously searched for cities will be saved in the list into local storage, and then retrieved from local storage to stay in display on the list
@@ -68,11 +82,13 @@ searchButton.addEventListener("submit", event) {
 }
 
 
-
-
-target the listitems in the results div
-on the click event from the selected city, fetch data from the city: date, temp, wind, humidity
+target the listitems in the results div, listen for submit to run the second function
+fetch the data related to the selected city, date, temp, wind, humidity
 on the click event from the selected city, clear out the previous city's displayed data, show the new city
+run the renderDivs function
+
+
+
 
 
 */
