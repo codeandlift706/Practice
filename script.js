@@ -13,11 +13,8 @@ const fiveCardContainer = document.querySelector(".fiveCardContainer");
 const cityInformationContainer = document.querySelector(".cityInformationContainer");
 //WE WILL CREATE AND APPEND LIST EL TO THIS - DISPLAY DATE, TEMP, WIND, HUMIDITY
 
-const APIKey = "1df7696f823ad8cc7efbb5f9a31ff2b8"
 
-const requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid=APIKey&units=imperial"
 
-const cityNameSearch =
 //THIS IS 5 DAY FORECAST - REQUEST BY CITY NAME
 
 /*
@@ -47,6 +44,12 @@ For symbol=
 list.weather.icon
 
 
+const temperatureDisplay = data[i].list.main.temp;
+            const windDisplay = data[i].list.wind.speed;
+            const humidityDisplay = data[i].list.main.humidity;
+            const symbolDisplay = data[i].list.weather.icon;
+
+
 -----------------------------------------------------------------------------------------------
 */
 //Functions
@@ -61,7 +64,8 @@ We need an observe button clicks behavior
     append the li to the empty list container
 
 */
-function searchCity (event) {
+
+function searchCity(event) {
     event.preventDefault();
 
     const inputField = document.querySelector("#searchCardInput");
@@ -69,23 +73,14 @@ function searchCity (event) {
 
     if (userInput === "") {
         alert("You must enter a city to perform a search.");
-        
+
         return;
     }
-    
-    inputField.value = "";
 
+inputField.value = "";
 
-    fetch() //request URL
-    .then(function(response) { //server response
-    return response.json(); //what we get here, we now are going to call it data at line 66
-
-    })
-    .then(function(data) {
-        console.log(data);
-    })
+    listCityName(userInput); //we are going to supply userInput
 }
-
 
 
 /*
@@ -95,8 +90,20 @@ We need to have the list item click handler function
     pass this info to the page url as query string
 */
 
-function listCity (event) {
+function listCityName(userInput) { //userInput was not defined in this function's scope but we need it. We are telling it to expect userInput
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8`) //anything wrapped in ${} is a variable
+    .then(function (response) { //server response
+        return response.json(); //what we get here, we now are going to call it data at line 66
+    })
+    .then(function (data) {
+        console.log(data);
 
+        
+        for (let i = 0; i < data.length; i++) {
+            displayCityInfo(data[i]); //we need to tell the function what is each data object, each data object occupies an index of the data array. This tells the function what argument we're passing
+        }
+
+    })
 }
 
 /*
@@ -133,11 +140,11 @@ We need to have a renderDivs function
 */
 
 
-function displayCityInfo (event) { //renderDivs function
-//need to know what the current search value is - know which element was clicked on so we can get its text content
-//update the page to reflect the currently selected value
-console.log("Your searchedCities button was clicked");
+function displayCityInfo(currentObject) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
+    
+    const cityNameDisplay = currentObject.city.name; // TODO loop this
 
+    console.log(cityNameDisplay);
 }
 
 /*
