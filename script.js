@@ -69,72 +69,65 @@ function listCityName(userInput) { //userInput was not defined in this function'
         .then(function (data) {
             console.log(data);
 
-
-            for (let i = 0; i < data.length; i++) {
-                displayCityName(data[i]); //we need to tell the function what is each data object, each data object occupies an index of the data array. This tells the function what argument we're passing
-            }
-
+            //for (let i = 0; i < data.length; i++) {
+               //displayCityName(data[i]); //we need to tell the function what is each data object, each data object occupies an index of the data array. This tells the function what argument we're passing
+            displayCityInfo(data);
+            displayCityName(data);
         })
 }
 
 
 //function to display the city name as a list element
-function displayCityName (currentObject) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
+function displayCityName(currentObject) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
 
     const cityName = currentObject.city.name;
 
-    console.log(cityName); // WHY ISN'T THIS SHOWING UP???????
+    console.log(cityName);
 
     //create list item, click event on list item?
     // searchedCitiesContainer div
-    const cityList = document.createElement("li");
-
+    const cityList = document.createElement("button");
     cityList.textContent = `${cityName}`;
     searchedCitiesContainer.appendChild(cityList);
-    displayCityInfo(cityList);
+
+    cityList.addEventListener("click", displayCityInfo);
+
 }
 
 /*
 function to display the city weather details
-    if current day,
-    create current day card element
+    if current day, create current day card element
     attach attr so that this shows on single line
     Display city name first + update text content to show
     append the current day card element to the head empty card container
     create list el of city data:
-    -Date
-    -Emoji-weather attribute-sunny, cloudy, rainy, etc
-    -Temp: ____ F
-    -Wind: __ MPH
-    -Humidity: __%
-    display: text from data API fetch call
-    append to the individual card
+        Date; Emoji-weather attribute; Temp: ____ F; Wind: __ MPH; Humidity: __%;
+    display: text from data API fetch call, append to each individual card
     
-    if NOT current day,
-    create the 5 day cards  - 
+    if NOT current day, create the 5 day cards 
     attach attr so that these are inline
     update text to show
     append the 5 day cards element to the 5 card empty container
     create list el of city data:
-    -Date
-    -Emoji-weather attribute-sunny, cloudy, rainy, etc
-    -Temp: ____ F
-    -Wind: __ MPH
-    -Humidity: __%
-    display: text from data API fetch call
-    append to each individual card
+        Date; Emoji-weather attribute; Temp: ____ F; Wind: __ MPH; Humidity: __%;
+    display: text from data API fetch call, append to each individual card
 */
-function displayCityInfo (cityList) { // renderDivs function
+function displayCityInfo(data) { // renderDivs function
 
-    const tempDisplay = list.list.main.temp;
-    const windDisplay = cityList.list.wind.speed;
-    const humidityDisplay = cityList.list.main.humidity;
-    const symbolDisplay = cityList.list.weather.icon;
 
-    const cityFullInfo = document.createElement("li");
+    console.log(data);
+    for (var i = 0; i < data.length; i++) {
+    const tempDisplay = data.list[i].main.temp;
+    const windDisplay = data.list[i].wind.speed;
+    const humidityDisplay = data.list[i].main.humidity;
+    const symbolDisplay = data.list[i].weather.icon;
 
-    cityFullInfo.textContent = `${cityName}`, `${tempDisplay}`, `${windDisplay}`, `${humidityDisplay}`,`${symbolDisplay}`;
+    const cityFullInfo = document.createElement("div");
+
+    cityFullInfo.textContent = `${tempDisplay}`, `${windDisplay}`, `${humidityDisplay}`, `${symbolDisplay}`;
     cityInformationContainer.appendChild(cityFullInfo);
+
+    }
 }
 
 /*
@@ -158,8 +151,7 @@ on the click event from the selected city, clear out the previous city's display
 run the renderDivs function
 */
 
-searchedCitiesContainer.addEventListener("click", displayCityInfo);
-
+//cityList.addEventListener("click", displayCityInfo);
 
 
 

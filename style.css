@@ -19,4 +19,6 @@ color:black;
 }
 
 
-
+button {
+    display:block;
+}
