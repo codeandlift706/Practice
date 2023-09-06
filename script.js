@@ -60,39 +60,83 @@ function searchCity(event) {
 }
 
 
-//function to fetch API data
+//function to fetch API data for city name
 function listCityName(userInput) { //userInput was not defined in this function's scope but we need it. We are telling it to expect userInput
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8`) //anything wrapped in ${} is a variable
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&cnt=5&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
         .then(function (data) {
             console.log(data);
 
-            //for (let i = 0; i < data.length; i++) {
-               //displayCityName(data[i]); //we need to tell the function what is each data object, each data object occupies an index of the data array. This tells the function what argument we're passing
-            displayCityInfo(data);
             displayCityName(data);
         })
+
 }
 
 
-//function to display the city name as a list element
+//function to display the city name as list element
 function displayCityName(currentObject) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
-
     const cityName = currentObject.city.name;
-
     console.log(cityName);
 
-    //create list item, click event on list item?
-    // searchedCitiesContainer div
-    const cityList = document.createElement("button");
-    cityList.textContent = `${cityName}`;
-    searchedCitiesContainer.appendChild(cityList);
+    const cityButton = document.createElement("li");
+    cityButton.textContent = `${cityName}`;
+    searchedCitiesContainer.append(cityButton);
 
-    cityList.addEventListener("click", displayCityInfo);
+    let currentDayWeatherIndex = 0
+    const dataArray = [currentObject];
+    const currentDay = dataArray[currentDayWeatherIndex];
+
+        for (var i = 0; i < currentDay.length; i++) {
+        const tempDisplay = currentDay.list[i].main.temp;
+        const windDisplay = currentDay.list[i].wind.speed;
+        const humidityDisplay = currentDay.list[i].main.humidity;
+        //const symbolDisplay = currentObject.list[i].weather[i].icon;
+        //console.log(tempDisplay[i], windDisplay[i], humidityDisplay[i]);
+    
+        const cityFullInfo = document.createElement("div");
+        cityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay);
+        cityInformationContainer.appendChild(cityFullInfo);
+    }
+
+
+
 
 }
+
+
+
+//function to click on populated city
+function listHandler(event) {
+
+const target = event.target;
+if (target.matches("li")) {
+    displayCityName(event);
+}
+}
+
+
+/*//function to display city info once clicked
+function displayCityInfo(currentObject) {
+console.log(currentObject);
+
+var dataArray = [currentObject];
+
+for (var i = 0; i < currentObject.list.length; i++) {
+    const tempDisplay = currentObject.list[i].main.temp;
+    const windDisplay = currentObject.list[i].wind.speed;
+    const humidityDisplay = currentObject.list[i].main.humidity;
+    //const symbolDisplay = currentObject.list[i].weather[i].icon;
+    //console.log(tempDisplay[i], windDisplay[i], humidityDisplay[i]);
+
+    const cityFullInfo = document.createElement("div");
+    cityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay);
+    cityInformationContainer.appendChild(cityFullInfo);
+}
+}
+
+/*
 
 /*
 function to display the city weather details
@@ -112,23 +156,6 @@ function to display the city weather details
         Date; Emoji-weather attribute; Temp: ____ F; Wind: __ MPH; Humidity: __%;
     display: text from data API fetch call, append to each individual card
 */
-function displayCityInfo(data) { // renderDivs function
-
-
-    console.log(data);
-    for (var i = 0; i < data.length; i++) {
-    const tempDisplay = data.list[i].main.temp;
-    const windDisplay = data.list[i].wind.speed;
-    const humidityDisplay = data.list[i].main.humidity;
-    const symbolDisplay = data.list[i].weather.icon;
-
-    const cityFullInfo = document.createElement("div");
-
-    cityFullInfo.textContent = `${tempDisplay}`, `${windDisplay}`, `${humidityDisplay}`, `${symbolDisplay}`;
-    cityInformationContainer.appendChild(cityFullInfo);
-
-    }
-}
 
 /*
 -----------------------------------------------------------------------------------------------
@@ -151,8 +178,8 @@ on the click event from the selected city, clear out the previous city's display
 run the renderDivs function
 */
 
-//cityList.addEventListener("click", displayCityInfo);
 
+searchedCitiesContainer.addEventListener("click", listHandler);
 
 
 
