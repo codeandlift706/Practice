@@ -89,32 +89,30 @@ function listCityName(userInput) { //userInput was not defined in this function'
 
 //function to display the city name as list element
 function displayCityName(currentObject, filteredArray) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
-    currentCityInformationContainer.innerHTML = "";
+    //currentCityInformationContainer.innerHTML = "";
     cityInformationContainer.innerHTML = "";
     const cityName = currentObject.city.name;
     console.log(cityName);
 
-    const tempCurrentDay = filteredArray[0].main.temp;
-    const windCurrentDay = filteredArray[0].wind.speed;
-    const humidityCurrentDay = filteredArray[0].main.humidity;
+    /*const tempNextDay = filteredArray[0].main.temp;
+    const windNextDay = filteredArray[0].wind.speed;
+    const humidityNextDay = filteredArray[0].main.humidity;
 
-    const tempCurrentDayDisplay = tempCurrentDay + ' °F';
-    const windCurrentDayDisplay = windCurrentDay + ' MPH';
-    const humidityCurrentDayDisplay = humidityCurrentDay + ' %';
+    const tempNextDayDisplay = tempNextDay + ' °F';
+    const windNextDayDisplay = windNextDay + ' MPH';
+    const humidityNextDayDisplay = humidityNextDay + ' %';
 
+    const nextCityTemp = document.createElement("li");
+    const nextCityWind = document.createElement("li");
+    const nextCityHumidity = document.createElement("li");
 
-    const currentCityTemp = document.createElement("li");
-    const currentCityWind = document.createElement("li");
-    const currentCityHumidity = document.createElement("li");
-
-
-    currentCityTemp.textContent = tempCurrentDayDisplay; 
-    currentCityWind.textContent = windCurrentDayDisplay; 
-    currentCityHumidity.textContent = humidityCurrentDayDisplay; 
+    nextCityTemp.textContent = tempNextDayDisplay; 
+    nextCityWind.textContent = windNextDayDisplay; 
+    nextCityHumidity.textContent = humidityNextDayDisplay; 
 
 
-    currentCityInformationContainer.append(currentCityTemp, currentCityWind, currentCityHumidity);
-
+    cityInformationContainer.append(nextCityTemp, nextCityWind, nextCityHumidity);
+*/
 
         for (var i = 0; i < filteredArray.length; i++) {
         const temp = filteredArray[i].main.temp;
@@ -125,14 +123,16 @@ function displayCityName(currentObject, filteredArray) { //renderDivs function, 
         const windDisplay = wind + ' MPH';
         const humidityDisplay = humidity + ' %';
 
-        console.log(tempDisplay);
-        console.log(windDisplay);
-        console.log(humidityDisplay);
+        const cityTemp = document.createElement("li");
+        const cityWind = document.createElement("li");
+        const cityHumidity = document.createElement("li");
 
-    
-    const fiveDayCityFullInfo = document.createElement("li");
-    fiveDayCityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay); // Why doesn't all three show?
-    cityInformationContainer.append(fiveDayCityFullInfo); 
+        cityTemp.textContent = tempDisplay; 
+        cityWind.textContent = windDisplay; 
+        cityHumidity.textContent = humidityDisplay; 
+
+
+    cityInformationContainer.append(cityTemp, cityWind, cityHumidity);
     }
 
 
@@ -147,7 +147,7 @@ function displayCityName(currentObject, filteredArray) { //renderDivs function, 
 
     })
 
-localStorage.setItem("cityName",cityName);
+localStorage.setItem("cityName",cityName); //have to now create an array to store in local storage, instead of just replacing the current city info in local storage
 
 
 
