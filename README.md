@@ -1,4 +1,4 @@
-# Work Day Scheduler Starter Code
+# Weather Dashboard
 
 
 The project is a work in progress. The purpose of creating a Weather Dashboard through the browser is to help users figure out the 5-day forecast for any city they search for. This application was created with creating files for HTML, CSS, and JavaScript. The content of the page has a search bar to search for their city, and once the city’s been searched for, the 5-day weather forecast should appear on the page. The deployed application can be found here: https://codeandlift706.github.io/Weather-Dashboard/.
