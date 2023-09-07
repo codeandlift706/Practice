@@ -11,7 +11,10 @@ const fiveCardContainer = document.querySelector(".fiveCardContainer");
 //WE WILL CREATE A CARD EL AND APPEND TO THIS
 
 const cityInformationContainer = document.querySelector(".cityInformationContainer");
-//WE WILL CREATE AND APPEND LIST EL TO THIS - DISPLAY DATE, TEMP, WIND, HUMIDITY
+//WE WILL CREATE AND APPEND 5 LIST EL TO THIS - DISPLAY DATE, TEMP, WIND, HUMIDITY
+
+const currentCityInformationContainer = document.querySelector(".currentCityInformationContainer");
+
 
 //API INFORMATION
 /*
@@ -62,39 +65,61 @@ function searchCity(event) {
 
 //function to fetch API data for city name
 function listCityName(userInput) { //userInput was not defined in this function's scope but we need it. We are telling it to expect userInput
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&cnt=6&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
         .then(function (data) {
             console.log(data);
+            var filteredArray = []
+            for (var i = 0; i < data.list.length; i++) {
+                if (data.list[i].dt_txt.includes("00:00:00")) {
+                    console.log(data.list[i]);
+                    filteredArray.push(data.list[i]);
+                }
+            }
 
-            displayCityName(data);
+
+
+            displayCityName(data, filteredArray);
         })
 
 }
 
 
 //function to display the city name as list element
-function displayCityName(currentObject) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
+function displayCityName(currentObject, filteredArray) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
+    currentCityInformationContainer.innerHTML = "";
+    cityInformationContainer.innerHTML = "";
     const cityName = currentObject.city.name;
     console.log(cityName);
 
-    const objectListArray = currentObject.list;
+    const tempCurrentDay = filteredArray[0].main.temp;
+    const windCurrentDay = filteredArray[0].wind.speed;
+    const humidityCurrentDay = filteredArray[0].main.humidity;
 
-    const tempCurrentDay = objectListArray[0].main.temp;
-    const windCurrentDay = objectListArray[0].wind.speed;
-    const humidityCurrentDay = objectListArray[0].main.humidity;
-
-    const cityFullInfo = document.createElement("div");
-    cityFullInfo.textContent = (tempCurrentDay + windCurrentDay + humidityCurrentDay);
-    cityInformationContainer.append(cityFullInfo);
+    const tempCurrentDayDisplay = tempCurrentDay + ' °F';
+    const windCurrentDayDisplay = windCurrentDay + ' MPH';
+    const humidityCurrentDayDisplay = humidityCurrentDay + ' %';
 
 
-        for (var i = 0; i < objectListArray.length; i++) {
-        const temp = objectListArray[i].main.temp;
-        const wind = objectListArray[i].wind.speed;
-        const humidity = objectListArray[i].main.humidity;
+    const currentCityTemp = document.createElement("li");
+    const currentCityWind = document.createElement("li");
+    const currentCityHumidity = document.createElement("li");
+
+
+    currentCityTemp.textContent = tempCurrentDayDisplay; 
+    currentCityWind.textContent = windCurrentDayDisplay; 
+    currentCityHumidity.textContent = humidityCurrentDayDisplay; 
+
+
+    currentCityInformationContainer.append(currentCityTemp, currentCityWind, currentCityHumidity);
+
+
+        for (var i = 0; i < filteredArray.length; i++) {
+        const temp = filteredArray[i].main.temp;
+        const wind = filteredArray[i].wind.speed;
+        const humidity = filteredArray[i].main.humidity;
     
         const tempDisplay = temp + ' °F';
         const windDisplay = wind + ' MPH';
@@ -103,8 +128,32 @@ function displayCityName(currentObject) { //renderDivs function, we're aliasing 
         console.log(tempDisplay);
         console.log(windDisplay);
         console.log(humidityDisplay);
+
+    
+    const fiveDayCityFullInfo = document.createElement("li");
+    fiveDayCityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay); // Why doesn't all three show?
+    cityInformationContainer.append(fiveDayCityFullInfo); 
     }
+
+
+    var cityBtn = document.createElement("button");
+    cityBtn.textContent = cityName;
+    searchedCitiesContainer.append(cityBtn);
+
+
+    cityBtn.addEventListener("click", function() {
+        listCityName(cityName);
+
+
+    })
+
+localStorage.setItem("cityName",cityName);
+
+
+
+
 }
+
 
 
 
