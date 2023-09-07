@@ -62,7 +62,7 @@ function searchCity(event) {
 
 //function to fetch API data for city name
 function listCityName(userInput) { //userInput was not defined in this function's scope but we need it. We are telling it to expect userInput
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&cnt=5&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&cnt=6&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
@@ -80,41 +80,32 @@ function displayCityName(currentObject) { //renderDivs function, we're aliasing 
     const cityName = currentObject.city.name;
     console.log(cityName);
 
-    const cityButton = document.createElement("li");
-    cityButton.textContent = `${cityName}`;
-    searchedCitiesContainer.append(cityButton);
+    const objectListArray = currentObject.list;
 
-    let currentDayWeatherIndex = 0
-    const dataArray = [currentObject];
-    const currentDay = dataArray[currentDayWeatherIndex];
+    const tempCurrentDay = objectListArray[0].main.temp;
+    const windCurrentDay = objectListArray[0].wind.speed;
+    const humidityCurrentDay = objectListArray[0].main.humidity;
 
-        for (var i = 0; i < currentDay.length; i++) {
-        const tempDisplay = currentDay.list[i].main.temp;
-        const windDisplay = currentDay.list[i].wind.speed;
-        const humidityDisplay = currentDay.list[i].main.humidity;
-        //const symbolDisplay = currentObject.list[i].weather[i].icon;
-        //console.log(tempDisplay[i], windDisplay[i], humidityDisplay[i]);
+    const cityFullInfo = document.createElement("div");
+    cityFullInfo.textContent = (tempCurrentDay + windCurrentDay + humidityCurrentDay);
+    cityInformationContainer.append(cityFullInfo);
+
+
+        for (var i = 0; i < objectListArray.length; i++) {
+        const temp = objectListArray[i].main.temp;
+        const wind = objectListArray[i].wind.speed;
+        const humidity = objectListArray[i].main.humidity;
     
-        const cityFullInfo = document.createElement("div");
-        cityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay);
-        cityInformationContainer.appendChild(cityFullInfo);
+        const tempDisplay = temp + ' °F';
+        const windDisplay = wind + ' MPH';
+        const humidityDisplay = humidity + ' %';
+
+        console.log(tempDisplay);
+        console.log(windDisplay);
+        console.log(humidityDisplay);
     }
-
-
-
-
 }
 
-
-
-//function to click on populated city
-function listHandler(event) {
-
-const target = event.target;
-if (target.matches("li")) {
-    displayCityName(event);
-}
-}
 
 
 /*//function to display city info once clicked
@@ -177,9 +168,6 @@ fetch the data related to the selected city, date, temp, wind, humidity
 on the click event from the selected city, clear out the previous city's displayed data, show the new city
 run the renderDivs function
 */
-
-
-searchedCitiesContainer.addEventListener("click", listHandler);
 
 
 
