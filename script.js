@@ -17,31 +17,10 @@ const currentCityInformationContainer = document.querySelector(".currentCityInfo
 
 
 //API INFORMATION
-/*
-For city:
-city.name
+// For symbol=
+// list.weather.icon
 
-For temperature: in Fahrenheit 
-list.main.temp
-units=imperial
 
-For wind speed: 
-list.wind.speed
-use units=imperial
-
-For humidity=
-list.main.humidity
-
-For symbol=
-list.weather.icon
-
-const temperatureDisplay = data[i].list.main.temp;
-const windDisplay = data[i].list.wind.speed;
-const humidityDisplay = data[i].list.main.humidity;
-const symbolDisplay = data[i].list.weather.icon;
-*/
-
-//---------------------------------------------------------------------------------------------
 //Functions
 
 //function for observe button clicks behavior --when you input text in the form bar-captures the input field value
@@ -59,20 +38,20 @@ function searchCity(event) {
 
     inputField.value = "";
 
-    listCityName(userInput); //we are going to supply userInput
+    listCityName(userInput); //pass userInput
 }
 
 
 //function to fetch API data for city name
-function listCityName(userInput) { //userInput was not defined in this function's scope but we need it. We are telling it to expect userInput
+function listCityName(userInput) { 
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
         .then(function (data) {
             console.log(data);
-            var filteredArray = []
-            for (var i = 0; i < data.list.length; i++) {
+            const filteredArray = []
+            for (let i = 0; i < data.list.length; i++) {
                 if (data.list[i].dt_txt.includes("00:00:00")) {
                     console.log(data.list[i]);
                     filteredArray.push(data.list[i]);
@@ -94,89 +73,63 @@ function displayCityName(currentObject, filteredArray) { //renderDivs function, 
     const cityName = currentObject.city.name;
     console.log(cityName);
 
-    /*const tempNextDay = filteredArray[0].main.temp;
-    const windNextDay = filteredArray[0].wind.speed;
-    const humidityNextDay = filteredArray[0].main.humidity;
-
-    const tempNextDayDisplay = tempNextDay + ' °F';
-    const windNextDayDisplay = windNextDay + ' MPH';
-    const humidityNextDayDisplay = humidityNextDay + ' %';
-
-    const nextCityTemp = document.createElement("li");
-    const nextCityWind = document.createElement("li");
-    const nextCityHumidity = document.createElement("li");
-
-    nextCityTemp.textContent = tempNextDayDisplay; 
-    nextCityWind.textContent = windNextDayDisplay; 
-    nextCityHumidity.textContent = humidityNextDayDisplay; 
-
-
-    cityInformationContainer.append(nextCityTemp, nextCityWind, nextCityHumidity);
-*/
-
-        for (var i = 0; i < filteredArray.length; i++) {
+        for (let i = 0; i < filteredArray.length; i++) {
+        const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
     
+        const dateDisplay = date;
         const tempDisplay = temp + ' °F';
         const windDisplay = wind + ' MPH';
         const humidityDisplay = humidity + ' %';
 
-        const cityTemp = document.createElement("li");
-        const cityWind = document.createElement("li");
-        const cityHumidity = document.createElement("li");
-
-        cityTemp.textContent = tempDisplay; 
-        cityWind.textContent = windDisplay; 
-        cityHumidity.textContent = humidityDisplay; 
-
-
-    cityInformationContainer.append(cityTemp, cityWind, cityHumidity);
-    }
-
-
-    var cityBtn = document.createElement("button");
-    cityBtn.textContent = cityName;
-    searchedCitiesContainer.append(cityBtn);
-
-
-    cityBtn.addEventListener("click", function() {
-        listCityName(cityName);
-
-
-    })
-
-localStorage.setItem("cityName",cityName); //have to now create an array to store in local storage, instead of just replacing the current city info in local storage
-
-
-
-
+        //create array
+        //store all items in array in local storage
+        //so we can retrieve these back out
+        //then append each object on a card
+    localStorage.setItem("cityName",cityName); //currently replacing in local storage
+    console.log(dateDisplay, tempDisplay, windDisplay, humidityDisplay);
+        }
 }
 
 
 
+// //target fiveCardContainer
+//     function renderCard(details){
+//     return `
+//         <div class="card">
+//             <img src="${(details.Poster != "N/A") ? details.Poster: "resources/img-not-found.png"}" alt="" class="card-img" />
+//             <div class="card-description">
+//                 <p class="card-title">${details.Title}</p>
+//                 <p> ${(details.Plot)} </p>
+//             </div>
+//         </div>
+//         `;
+//     }
+//     let detailArray = [
+//         {
+//             Poster: "Poster1",
+//             Title: "Title1",
+//             Plot: "Plot1"
+//         },
+//         {
+//             Poster: "Poster2",
+//             Title: "Title2",
+//             Plot: "Plot2"
+//         },
+//         {
+//             Poster: "Poster2",
+//             Title: "Title2",
+//             Plot: "Plot2"
+//         },
+//     ];
+    
+//     cardsGroupFlex.innerHTML = detailArray.map(item => getContentDetails(item)).join("");
 
-/*//function to display city info once clicked
-function displayCityInfo(currentObject) {
-console.log(currentObject);
 
-var dataArray = [currentObject];
 
-for (var i = 0; i < currentObject.list.length; i++) {
-    const tempDisplay = currentObject.list[i].main.temp;
-    const windDisplay = currentObject.list[i].wind.speed;
-    const humidityDisplay = currentObject.list[i].main.humidity;
-    //const symbolDisplay = currentObject.list[i].weather[i].icon;
-    //console.log(tempDisplay[i], windDisplay[i], humidityDisplay[i]);
 
-    const cityFullInfo = document.createElement("div");
-    cityFullInfo.textContent = (tempDisplay, windDisplay, humidityDisplay);
-    cityInformationContainer.appendChild(cityFullInfo);
-}
-}
-
-/*
 
 /*
 function to display the city weather details
