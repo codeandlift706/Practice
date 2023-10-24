@@ -1,20 +1,8 @@
 //Global Variables
 const searchButton = document.querySelector(".searchBtn");
-
 const searchedCitiesContainer = document.querySelector(".searchedCitiesContainer");
-//WE WILL CREATE A LIST EL AND APPEND TO THIS
-
 const currentCardContainer = document.querySelector(".currentCardContainer");
-//WE WILL CREATE A CARD EL AND APPEND TO THIS
-
-const fiveCardContainer = document.querySelector(".fiveCardContainer");
-//WE WILL CREATE A CARD EL AND APPEND TO THIS
-
-const cityInformationContainer = document.querySelector(".cityInformationContainer");
-//WE WILL CREATE AND APPEND 5 LIST EL TO THIS - DISPLAY DATE, TEMP, WIND, HUMIDITY
-
-const currentCityInformationContainer = document.querySelector(".currentCityInformationContainer");
-
+const cardContainer = document.querySelector(".cardContainer");
 
 //API INFORMATION
 // For symbol=
@@ -23,7 +11,7 @@ const currentCityInformationContainer = document.querySelector(".currentCityInfo
 
 //Functions
 
-//function for observe button clicks behavior --when you input text in the form bar-captures the input field value
+//function to observe search click behavior
 function searchCity(event) {
     event.preventDefault();
 
@@ -41,9 +29,8 @@ function searchCity(event) {
     listCityName(userInput); //pass userInput
 }
 
-
 //function to fetch API data for city name
-function listCityName(userInput) { 
+function listCityName(userInput) {
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
@@ -57,110 +44,61 @@ function listCityName(userInput) {
                     filteredArray.push(data.list[i]);
                 }
             }
-
-
-
             displayCityName(data, filteredArray);
         })
-
 }
 
 
 //function to display the city name as list element
-function displayCityName(currentObject, filteredArray) { //renderDivs function, we're aliasing the previous data point as currentObject. It does not have to be called the same value it is passed as. It is essentially var currentObject = data[i]. We tell this function to catch that current object before it will be logged
+function displayCityName(currentObject, filteredArray) {
     //currentCityInformationContainer.innerHTML = "";
-    cityInformationContainer.innerHTML = "";
+    // cityInformationContainer.innerHTML = "";
     const cityName = currentObject.city.name;
     console.log(cityName);
 
-        for (let i = 0; i < filteredArray.length; i++) {
+    for (let i = 0; i < filteredArray.length; i++) {
         const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
-    
+
         const dateDisplay = date;
         const tempDisplay = temp + ' °F';
         const windDisplay = wind + ' MPH';
         const humidityDisplay = humidity + ' %';
 
-        //create array
-        //store all items in array in local storage
-        //so we can retrieve these back out
-        //then append each object on a card
-    localStorage.setItem("cityName",cityName); //currently replacing in local storage
-    console.log(dateDisplay, tempDisplay, windDisplay, humidityDisplay);
+        const forecastData = {
+            city: cityName,
+            date: dateDisplay,
+            temperature: tempDisplay,
+            wind: windDisplay,
+            humidity: humidityDisplay
         }
+
+        let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
+        weatherArray.push(forecastData);
+        localStorage.setItem("forecast", JSON.stringify(weatherArray));
+
+
+        for (const entry of weatherArray) { //for every entry in weatherArray
+            const weatherCard = (`${entry.date}, ${entry.temperature}, ${entry.wind}, ${entry.humidity}`);
+
+            const cardEl = document.createElement("card");
+            cardEl.textContent = weatherCard;
+            cardContainer.append(cardEl);
+        }
+
+        console.log(dateDisplay, tempDisplay, windDisplay, humidityDisplay);
+    }
 }
 
 
 
-// //target fiveCardContainer
-//     function renderCard(details){
-//     return `
-//         <div class="card">
-//             <img src="${(details.Poster != "N/A") ? details.Poster: "resources/img-not-found.png"}" alt="" class="card-img" />
-//             <div class="card-description">
-//                 <p class="card-title">${details.Title}</p>
-//                 <p> ${(details.Plot)} </p>
-//             </div>
-//         </div>
-//         `;
-//     }
-//     let detailArray = [
-//         {
-//             Poster: "Poster1",
-//             Title: "Title1",
-//             Plot: "Plot1"
-//         },
-//         {
-//             Poster: "Poster2",
-//             Title: "Title2",
-//             Plot: "Plot2"
-//         },
-//         {
-//             Poster: "Poster2",
-//             Title: "Title2",
-//             Plot: "Plot2"
-//         },
-//     ];
-    
-//     cardsGroupFlex.innerHTML = detailArray.map(item => getContentDetails(item)).join("");
 
-
-
-
-
-/*
-function to display the city weather details
-    if current day, create current day card element
-    attach attr so that this shows on single line
-    Display city name first + update text content to show
-    append the current day card element to the head empty card container
-    create list el of city data:
-        Date; Emoji-weather attribute; Temp: ____ F; Wind: __ MPH; Humidity: __%;
-    display: text from data API fetch call, append to each individual card
-    
-    if NOT current day, create the 5 day cards 
-    attach attr so that these are inline
-    update text to show
-    append the 5 day cards element to the 5 card empty container
-    create list el of city data:
-        Date; Emoji-weather attribute; Temp: ____ F; Wind: __ MPH; Humidity: __%;
-    display: text from data API fetch call, append to each individual card
-*/
-
-/*
------------------------------------------------------------------------------------------------
 //Processes
-/*
 
-target the search button, listen for submit to run the first function
-on the click event, make API call to fetch data from the city
-so that the city/geographical pops up
-the previously searched for cities will be saved in the list into local storage, and then retrieved from local storage to stay in display on the list
 
-*/
+//search city
 searchButton.addEventListener("click", searchCity);
 
 
