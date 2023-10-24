@@ -78,10 +78,11 @@ function displayCityName(currentObject, filteredArray) {
         let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
         weatherArray.push(forecastData);
         localStorage.setItem("forecast", JSON.stringify(weatherArray));
-
+        return weatherArray;
+    }
 
         for (const entry of weatherArray) { //for every entry in weatherArray
-            const weatherCard = (`${entry.date}, ${entry.temperature}, ${entry.wind}, ${entry.humidity}`);
+            const weatherCard = (`${entry.city}, ${entry.date}, ${entry.temperature}, ${entry.wind}, ${entry.humidity}`);
 
             const cardEl = document.createElement("card");
             cardEl.textContent = weatherCard;
@@ -90,7 +91,7 @@ function displayCityName(currentObject, filteredArray) {
 
         console.log(dateDisplay, tempDisplay, windDisplay, humidityDisplay);
     }
-}
+
 
 
 
