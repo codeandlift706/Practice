@@ -1,5 +1,6 @@
 //Global Variables
 const searchButton = document.querySelector(".searchBtn");
+const resetButton = document.querySelector(".resetBtn");
 const searchedCitiesContainer = document.querySelector(".searchedCitiesContainer");
 const currentCardContainer = document.querySelector(".currentCardContainer");
 const cardContainer = document.querySelector(".cardContainer");
@@ -106,6 +107,9 @@ function displayCityName(currentObject, filteredArray) {
 }
 
 
+function resetLocalStorage () {
+    localStorage.clear();
+}
 
 
 //Processes
@@ -115,6 +119,9 @@ function displayCityName(currentObject, filteredArray) {
 searchButton.addEventListener("click", searchCity);
 
 //click event handler for when you click a city in the searched list, that city's forecast data pops up
+
+//clear local storage
+resetButton.addEventListener("click", resetLocalStorage);
 
 
 /*
