@@ -10,7 +10,6 @@ const cardContainer = document.querySelector(".cardContainer");
 // list.weather.icon
 
 //need to do:
-//searched city button to generate temp for that city
 //how to get the API weather icon
 //fix the date -- how do you retrieve current day? How do you retrieve weather consistently for the next 5 days?
 //style the page
@@ -37,21 +36,34 @@ function searchCity(event) {
     cityButtonEl.textContent = userInput;
     // console.log(cityName);
 
-    cityButtonEl.addEventListener("click",function(event){ //attach event listener for the city button
+    cityButtonEl.addEventListener("click", function (event) { //attach event listener for the city button
         listCityName(event.target.textContent)
     })
 
     searchedCitiesContainer.append(cityButtonEl);
 
-    listCityName(userInput); //pass userInput
+    getCurrentDay(userInput); //pass userInput
+    getFiveDay(userInput); //pass userInput
 }
 
 
-//function to fetch API data for city name
+//function to fetch API data for current weather
+function getCurrentDay(userInput) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
+        .then(function (response) { //server response
+            return response.json(); //what we get here, we now are going to call it data at line 66
+        })
+        .then(function (data) {
+            console.log(data);
+            displayCurrentDay(data);
+        })
+}
+
+//function to fetch API data for 5-day forecast
 //create button for each city searched
 //on click
-function listCityName(userInput) {
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
+function getFiveDay(userInput) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
@@ -60,21 +72,79 @@ function listCityName(userInput) {
             const filteredArray = []
             for (let i = 0; i < data.list.length; i++) {
                 if (data.list[i].dt_txt.includes("00:00:00")) {
-                    console.log(data.list[i]);
+                    // console.log(data.list[i]);
                     filteredArray.push(data.list[i]);
                 }
             }
-            displayCity(data, filteredArray);
+            displayFiveDay(data, filteredArray);
         })
 }
 
 
-//function to display the city name as list element
-function displayCity(currentObject, filteredArray) {
+//function to display current weather, store to local storage
+function displayCurrentDay(currentDayObject) {
+
+    currentCardContainer.innerHTML = "";
+
+    const cityName = currentDayObject.name;
+    // console.log(cityName);
+    // console.log(filteredArray);
+
+    const temp = currentDayObject.main.temp;
+    const wind = currentDayObject.wind.speed;
+    const humidity = currentDayObject.main.humidity;
+
+    const now = new Date(); //get current date
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    const newDateFormat = `${month}/${day}/${year}`;
+
+    const currentWeatherCard = (
+        `${cityName}
+        ${newDateFormat}
+        temperature: ${temp}°F
+        windspeed: ${wind} MPH
+        humidity: ${humidity}%`
+    ); //create a variable weatherCard to show this info
+
+    const currentWeatherCardLines = currentWeatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
+    const currentWeatherCardP = currentWeatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
+
+    currentWeatherCardP.forEach((p, index) => {
+        p.textContent = currentWeatherCardLines[index];
+    }); //for each string in the new array, set the p to display the text
+
+    const currentCardEl = document.createElement("card"); //create a card for entry
+    currentCardContainer.append(currentCardEl); //append to currentCardContainer
+    currentCardEl.append(...currentWeatherCardP); //append each p element to the card element
+
+    const currentDayData = { //create an object with these properties so we can store to local storage
+        city: cityName,
+        date: newDateFormat,
+        temperature: temp,
+        wind: wind,
+        humidity: humidity
+    }
+
+    //save the current day object in local storage, add to the existing array
+    let currentWeatherArray = JSON.parse(localStorage.getItem("currentWeather")) || [];
+    currentWeatherArray.push(currentDayData);
+    localStorage.setItem("currentWeather", JSON.stringify(currentWeatherArray));
+}
+
+
+
+
+
+
+
+//function to display the five day forecast, store to local storage
+function displayFiveDay(fiveDayObject, filteredArray) {
 
     cardContainer.innerHTML = "";
 
-    const cityName = currentObject.city.name;
+    const cityName = fiveDayObject.city.name;
     // console.log(cityName);
     // console.log(filteredArray);
 
@@ -98,15 +168,15 @@ function displayCity(currentObject, filteredArray) {
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
         const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
-        const weatherCardDivs = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
+        const weatherCardP = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
 
-        weatherCardDivs.forEach((p, index) => { 
+        weatherCardP.forEach((p, index) => {
             p.textContent = weatherCardLines[index];
         }); //for each string in the new array, set the p to display the text
 
         const cardEl = document.createElement("card"); //create a card for each entry
         cardContainer.append(cardEl); //append to cardContainer
-        cardEl.append(...weatherCardDivs); //append each p element to the cardEl element
+        cardEl.append(...weatherCardP); //append each p element to the cardEl element
 
         const forecastData = { //create an object with these properties so we can store to local storage
             city: cityName,
