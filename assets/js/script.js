@@ -11,7 +11,7 @@ const cardContainer = document.querySelector(".cardContainer");
 
 //need to do:
 //how to get the API weather icon
-//fix the date -- how do you retrieve current day? How do you retrieve weather consistently for the next 5 days?
+//how do you retrieve weather consistently for the next 5 days? I am getting weather for next 5 days that includes "00:00:00" only
 //style the page
 
 
@@ -59,9 +59,8 @@ function getCurrentDay(userInput) {
         })
 }
 
+
 //function to fetch API data for 5-day forecast
-//create button for each city searched
-//on click
 function getFiveDay(userInput) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
@@ -85,7 +84,6 @@ function getFiveDay(userInput) {
 function displayCurrentDay(currentDayObject) {
 
     currentCardContainer.innerHTML = "";
-
     const cityName = currentDayObject.name;
     // console.log(cityName);
     // console.log(filteredArray);
@@ -134,16 +132,10 @@ function displayCurrentDay(currentDayObject) {
 }
 
 
-
-
-
-
-
 //function to display the five day forecast, store to local storage
 function displayFiveDay(fiveDayObject, filteredArray) {
 
     cardContainer.innerHTML = "";
-
     const cityName = fiveDayObject.city.name;
     // console.log(cityName);
     // console.log(filteredArray);
@@ -205,8 +197,6 @@ function resetLocalStorage() {
 
 //search city
 searchButton.addEventListener("click", searchCity);
-
-//click event handler for when you click a city in the searched list, that city's forecast data pops up
 
 //clear local storage
 resetButton.addEventListener("click", resetLocalStorage);
