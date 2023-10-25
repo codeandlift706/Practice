@@ -56,7 +56,12 @@ function displayCityName(currentObject, filteredArray) {
     const cityName = currentObject.city.name;
     console.log(cityName);
     console.log(filteredArray);
-
+    
+    const cityListEl = document.createElement("list");
+    cityListEl.textContent = cityName;
+    console.log(cityName);
+    searchedCitiesContainer.append(cityListEl);
+    
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array
         const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
@@ -73,37 +78,21 @@ function displayCityName(currentObject, filteredArray) {
             const cardEl = document.createElement("card"); //create a card for each entry
             cardEl.textContent = weatherCard; //display
             cardContainer.append(cardEl); //append
-        // }
-
-        // for (const entry of filteredArray) { //for every entry in filteredArray
-        //     const weatherCard = (`${entry.city}, ${entry.date}, ${entry.temperature}, ${entry.wind}, ${entry.humidity}`); //create a variable weatherCard to show this info
-
-        //     const cardEl = document.createElement("card"); //create a card for each entry
-        //     cardEl.textContent = weatherCard; //display
-        //     cardContainer.append(cardEl); //append
-        // }
-
-
-
-    }
-
-    const forecastData = { //create an object with these properties so we can store to local storage
-        city: cityName,
-        date: dateDisplay,
-        temperature: tempDisplay,
-        wind: windDisplay,
-        humidity: humidityDisplay
-    }
-
-    const cityListEl = document.createElement("list");
-    cityListEl.textContent = cityName;
-    console.log(cityName);
-    searchedCitiesContainer.append(cityListEl);
-    // this saves the 5 days/5 objects in local storage, adds to the existing array
-    let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
-    weatherArray.push(forecastData);
-    localStorage.setItem("forecast", JSON.stringify(weatherArray));
-    console.log(weatherArray);
+            
+            const forecastData = { //create an object with these properties so we can store to local storage
+                city: cityName,
+                date: date,
+                temperature: temp,
+                wind: wind,
+                humidity: humidity
+            }
+            
+            // this saves the 5 days/5 objects in local storage, adds to the existing array
+            let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
+            weatherArray.push(forecastData);
+            localStorage.setItem("forecast", JSON.stringify(weatherArray));
+            console.log(weatherArray);
+        }
 }
 
 
