@@ -9,6 +9,12 @@ const cardContainer = document.querySelector(".cardContainer");
 // For symbol=
 // list.weather.icon
 
+//need to do:
+//searched city button to generate temp for that city
+//how to get the API weather icon
+//fix the date -- how do you retrieve current day? How do you retrieve weather consistently for the next 5 days?
+//style the page
+
 
 //Functions
 
@@ -21,16 +27,24 @@ function searchCity(event) {
 
     if (userInput === "") {
         alert("You must enter a city to perform a search.");
-
         return;
     }
 
     inputField.value = "";
 
+
+    const cityButtonEl = document.createElement("button"); //create a button for each city searched
+    cityButtonEl.textContent = userInput;
+    // console.log(cityName);
+    searchedCitiesContainer.append(cityButtonEl);
+
     listCityName(userInput); //pass userInput
 }
 
+
 //function to fetch API data for city name
+//create button for each city searched
+//on click
 function listCityName(userInput) {
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${userInput}&appid=1df7696f823ad8cc7efbb5f9a31ff2b8&units=imperial`) //anything wrapped in ${} is a variable
         .then(function (response) { //server response
@@ -45,13 +59,13 @@ function listCityName(userInput) {
                     filteredArray.push(data.list[i]);
                 }
             }
-            displayCityName(data, filteredArray);
+            displayCity(data, filteredArray);
         })
 }
 
 
 //function to display the city name as list element
-function displayCityName(currentObject, filteredArray) {
+function displayCity(currentObject, filteredArray) {
 
     cardContainer.innerHTML = "";
 
@@ -59,25 +73,17 @@ function displayCityName(currentObject, filteredArray) {
     // console.log(cityName);
     // console.log(filteredArray);
 
-    const cityButtonEl = document.createElement("button");
-    cityButtonEl.textContent = cityName;
-    // console.log(cityName);
-    searchedCitiesContainer.append(cityButtonEl);
-
-    for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array
+    for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array and grab what we need
         const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
 
-        const dateReformat = new Date(date);
-
+        const dateReformat = new Date(date); //reformat date
         const day = dateReformat.getDate();
         const month = dateReformat.getMonth() + 1;
         const year = dateReformat.getFullYear();
-
         const newDateFormat = `${month}/${day}/${year}`;
-
 
         const weatherCard = (
             `${newDateFormat}
@@ -85,7 +91,6 @@ function displayCityName(currentObject, filteredArray) {
                 windspeed: ${wind} MPH
                 humidity: ${humidity}%`
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
-
 
         const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
         const weatherCardDivs = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
@@ -106,22 +111,22 @@ function displayCityName(currentObject, filteredArray) {
             humidity: humidity
         }
 
-        // this saves the 5 days/5 objects in local storage, adds to the existing array
+        //save the 5 days/5 objects in local storage, add to the existing array
         let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
         weatherArray.push(forecastData);
         localStorage.setItem("forecast", JSON.stringify(weatherArray));
-        console.log(weatherArray);
+        // console.log(weatherArray);
     }
 }
 
 
+//reset local storage and clears list of searched cities
 function resetLocalStorage() {
     localStorage.clear();
 }
 
 
 //Processes
-
 
 //search city
 searchButton.addEventListener("click", searchCity);
@@ -131,23 +136,4 @@ searchButton.addEventListener("click", searchCity);
 //clear local storage
 resetButton.addEventListener("click", resetLocalStorage);
 
-
-/*
-target the listitems in the results div, listen for submit to run the second function
-fetch the data related to the selected city, date, temp, wind, humidity
-on the click event from the selected city, clear out the previous city's displayed data, show the new city
-run the renderDivs function
-*/
-
-
-
-// plug in bootstrap later
-/*
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-*/
 
