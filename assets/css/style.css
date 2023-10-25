@@ -10,18 +10,45 @@
     font-family: 'Fira Sans Extra Condensed', sans-serif;
 }
 
-.headerEl {
-    font-size: var(--largest-font);
+main {
+    display: flex;
 }
 
-.searchedCitiesContainer {
+.searchCardContainer {
+    width: 25%;
+    height: 300%;
+}
+
+.searchedCitiesContainer { 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+} 
+
+.allCardsContainer {
+    display: flex;
+    flex-direction: column;
+
 }
+
+.currentCardContainer {
+    display: flex;
+    justify-content:flex-start;
+    }
+
 
 .cardContainer {
 display: flex;
 justify-content:space-around;
 }
+
+card {
+    margin: 10px;
+    width: 190px;
+}
+
+.headerEl {
+    font-size: var(--largest-font);
+}
+
 

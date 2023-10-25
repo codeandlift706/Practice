@@ -37,7 +37,9 @@ function searchCity(event) {
     // console.log(cityName);
 
     cityButtonEl.addEventListener("click", function (event) { //attach event listener for the city button
-        listCityName(event.target.textContent)
+        getCurrentDay(event.target.textContent)
+        getFiveDay(event.target.textContent)
+
     })
 
     searchedCitiesContainer.append(cityButtonEl);
