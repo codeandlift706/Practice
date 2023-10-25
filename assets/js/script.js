@@ -53,12 +53,12 @@ function listCityName(userInput) {
 function displayCityName(currentObject, filteredArray) {
 
     cardContainer.innerHTML = "";
-    
+
     const cityName = currentObject.city.name;
     console.log(cityName);
     console.log(filteredArray);
     
-    const cityListEl = document.createElement("list");
+    const cityListEl = document.createElement("li");
     cityListEl.textContent = cityName;
     console.log(cityName);
     searchedCitiesContainer.append(cityListEl);

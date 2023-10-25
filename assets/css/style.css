@@ -1,24 +1,21 @@
-.root {
-color:black;
+:root {
+    background-color: #FDB927;
+    --list-color: rgb(123, 69, 123);
+    --largest-font: 50px;
+    --larger-font: 40px;
+    --large-font: 30px;
+    --medium-font: 25px;
+    --small-font: 20px;
+    --centered: center;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
 }
-
-
 
 .headerEl {
-color:black;
+    font-size: var(--largest-font);
 }
 
-
-.searchCardHeaderEl {
-color:black;
+.cardContainer {
+display: flex;
+justify-content: center;
 }
 
-
-.searchBtn {
-color:black;
-}
-
-
-button {
-    display:block;
-}
