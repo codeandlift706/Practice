@@ -59,10 +59,10 @@ function displayCityName(currentObject, filteredArray) {
     // console.log(cityName);
     // console.log(filteredArray);
 
-    const cityListEl = document.createElement("button");
-    cityListEl.textContent = cityName;
+    const cityButtonEl = document.createElement("button");
+    cityButtonEl.textContent = cityName;
     // console.log(cityName);
-    searchedCitiesContainer.append(cityListEl);
+    searchedCitiesContainer.append(cityButtonEl);
 
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array
         const date = filteredArray[i].dt_txt;
@@ -80,15 +80,23 @@ function displayCityName(currentObject, filteredArray) {
 
 
         const weatherCard = (
-            `<p>${newDateFormat}</p>
-                <p>temperature: ${temp}°F</p>
-                <p>windspeed: ${wind} MPH</p>
-                <p>humidity: ${humidity}%</p>`
+            `${newDateFormat}
+                temperature: ${temp}°F
+                windspeed: ${wind} MPH
+                humidity: ${humidity}%`
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
+
+        const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
+        const weatherCardDivs = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
+
+        weatherCardDivs.forEach((p, index) => { 
+            p.textContent = weatherCardLines[index];
+        }); //for each string in the new array, set the p to display the text
+
         const cardEl = document.createElement("card"); //create a card for each entry
-        cardEl.textContent = weatherCard; //display
-        cardContainer.append(cardEl); //append
+        cardContainer.append(cardEl); //append to cardContainer
+        cardEl.append(...weatherCardDivs); //append each p element to the cardEl element
 
         const forecastData = { //create an object with these properties so we can store to local storage
             city: cityName,
@@ -102,12 +110,12 @@ function displayCityName(currentObject, filteredArray) {
         let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
         weatherArray.push(forecastData);
         localStorage.setItem("forecast", JSON.stringify(weatherArray));
-        // console.log(weatherArray);
+        console.log(weatherArray);
     }
 }
 
 
-function resetLocalStorage () {
+function resetLocalStorage() {
     localStorage.clear();
 }
 

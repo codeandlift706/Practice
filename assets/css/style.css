@@ -14,8 +14,14 @@
     font-size: var(--largest-font);
 }
 
+.searchedCitiesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .cardContainer {
 display: flex;
-justify-content: center;
+justify-content:space-around;
 }
 
