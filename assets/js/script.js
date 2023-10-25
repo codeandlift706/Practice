@@ -10,7 +10,7 @@ const cardContainer = document.querySelector(".cardContainer");
 // list.weather.icon
 
 //need to do:
-//how to get the API weather icon
+//how to get the API weather icon -- strings cannot store complex data so that's why the icon isnt showing
 //how do you retrieve weather consistently for the next 5 days? I am getting weather for next 5 days that includes "00:00:00" only
 //style the page
 
@@ -154,13 +154,16 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const newDateFormat = `${month}/${day}/${year}`;
 
         const weatherCard = (
-            `${newDateFormat}
+            `date: ${newDateFormat}
                 temperature: ${temp}°F
                 windspeed: ${wind} MPH
                 humidity: ${humidity}%
-                icon: ${icon}`
+                icon: https://openweathermap.org/img/wn/${icon}.png`
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
+
+
+        
         const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
         const weatherCardP = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
 
