@@ -36,6 +36,11 @@ function searchCity(event) {
     const cityButtonEl = document.createElement("button"); //create a button for each city searched
     cityButtonEl.textContent = userInput;
     // console.log(cityName);
+
+    cityButtonEl.addEventListener("click",function(event){ //attach event listener for the city button
+        listCityName(event.target.textContent)
+    })
+
     searchedCitiesContainer.append(cityButtonEl);
 
     listCityName(userInput); //pass userInput
