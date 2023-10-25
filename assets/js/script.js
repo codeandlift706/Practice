@@ -12,6 +12,7 @@ const cardContainer = document.querySelector(".cardContainer");
 //need to do:
 //how to get the API weather icon
 //how do you retrieve weather consistently for the next 5 days? I am getting weather for next 5 days that includes "00:00:00" only
+//add flex properties to the page
 //style the page
 
 
@@ -147,6 +148,7 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
+        const icon = filteredArray[i].weather.icon;
 
         const dateReformat = new Date(date); //reformat date
         const day = dateReformat.getDate();
@@ -158,7 +160,8 @@ function displayFiveDay(fiveDayObject, filteredArray) {
             `${newDateFormat}
                 temperature: ${temp}°F
                 windspeed: ${wind} MPH
-                humidity: ${humidity}%`
+                humidity: ${humidity}%
+                icon: ${icon}`
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
         const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
