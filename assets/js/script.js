@@ -55,12 +55,12 @@ function displayCityName(currentObject, filteredArray) {
     cardContainer.innerHTML = "";
 
     const cityName = currentObject.city.name;
-    console.log(cityName);
-    console.log(filteredArray);
-    
-    const cityListEl = document.createElement("li");
+    // console.log(cityName);
+    // console.log(filteredArray);
+
+    const cityListEl = document.createElement("button");
     cityListEl.textContent = cityName;
-    console.log(cityName);
+    // console.log(cityName);
     searchedCitiesContainer.append(cityListEl);
 
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array
@@ -69,27 +69,42 @@ function displayCityName(currentObject, filteredArray) {
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
 
-            const weatherCard = (`${date}, temperature: ${temp}°F, windspeed: ${wind} MPH, humidity: ${humidity}%`); //for every entry in filteredArray, create a variable weatherCard to show this info
+        const dateReformat = new Date(date);
 
-            const cardEl = document.createElement("card"); //create a card for each entry
-            cardEl.textContent = weatherCard; //display
-            cardContainer.append(cardEl); //append
-            
-            const forecastData = { //create an object with these properties so we can store to local storage
-                city: cityName,
-                date: date,
-                temperature: temp,
-                wind: wind,
-                humidity: humidity
-            }
-            
-            // this saves the 5 days/5 objects in local storage, adds to the existing array
-            let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
-            weatherArray.push(forecastData);
-            localStorage.setItem("forecast", JSON.stringify(weatherArray));
-            console.log(weatherArray);
+        const day = dateReformat.getDate();
+        const month = dateReformat.getMonth() + 1;
+        const year = dateReformat.getFullYear();
+
+        const newDateFormat = `${month}/${day}/${year}`;
+
+
+        const weatherCard = (
+            `<p>${newDateFormat}</p>
+                <p>temperature: ${temp}°F</p>
+                <p>windspeed: ${wind} MPH</p>
+                <p>humidity: ${humidity}%</p>`
+        ); //for every entry in filteredArray, create a variable weatherCard to show this info
+
+        const cardEl = document.createElement("card"); //create a card for each entry
+        cardEl.textContent = weatherCard; //display
+        cardContainer.append(cardEl); //append
+
+        const forecastData = { //create an object with these properties so we can store to local storage
+            city: cityName,
+            date: newDateFormat,
+            temperature: temp,
+            wind: wind,
+            humidity: humidity
         }
+
+        // this saves the 5 days/5 objects in local storage, adds to the existing array
+        let weatherArray = JSON.parse(localStorage.getItem("forecast")) || [];
+        weatherArray.push(forecastData);
+        localStorage.setItem("forecast", JSON.stringify(weatherArray));
+        // console.log(weatherArray);
+    }
 }
+
 
 
 
@@ -99,7 +114,7 @@ function displayCityName(currentObject, filteredArray) {
 //search city
 searchButton.addEventListener("click", searchCity);
 
-//click event handler for a city in the searched list
+//click event handler for when you click a city in the searched list, that city's forecast data pops up
 
 
 /*
