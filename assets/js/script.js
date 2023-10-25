@@ -51,8 +51,9 @@ function listCityName(userInput) {
 
 //function to display the city name as list element
 function displayCityName(currentObject, filteredArray) {
-    //currentCityInformationContainer.innerHTML = "";
-    // cityInformationContainer.innerHTML = "";
+
+    cardContainer.innerHTML = "";
+    
     const cityName = currentObject.city.name;
     console.log(cityName);
     console.log(filteredArray);
@@ -61,17 +62,12 @@ function displayCityName(currentObject, filteredArray) {
     cityListEl.textContent = cityName;
     console.log(cityName);
     searchedCitiesContainer.append(cityListEl);
-    
+
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array
         const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
-
-        // const dateDisplay = date; //gets the data in the format we want
-        // const tempDisplay = temp + ' °F';
-        // const windDisplay = wind + ' MPH';
-        // const humidityDisplay = humidity + ' %';
 
             const weatherCard = (`${date}, temperature: ${temp}°F, windspeed: ${wind} MPH, humidity: ${humidity}%`); //for every entry in filteredArray, create a variable weatherCard to show this info
 
