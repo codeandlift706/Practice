@@ -12,7 +12,6 @@ const cardContainer = document.querySelector(".cardContainer");
 //need to do:
 //how to get the API weather icon
 //how do you retrieve weather consistently for the next 5 days? I am getting weather for next 5 days that includes "00:00:00" only
-//add flex properties to the page
 //style the page
 
 
@@ -32,10 +31,8 @@ function searchCity(event) {
 
     inputField.value = "";
 
-
     const cityButtonEl = document.createElement("button"); //create a button for each city searched
     cityButtonEl.textContent = userInput;
-    // console.log(cityName);
 
     cityButtonEl.addEventListener("click", function (event) { //attach event listener for the city button
         getCurrentDay(event.target.textContent)
@@ -57,7 +54,7 @@ function getCurrentDay(userInput) {
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             displayCurrentDay(data);
         })
 }
@@ -70,7 +67,7 @@ function getFiveDay(userInput) {
             return response.json(); //what we get here, we now are going to call it data at line 66
         })
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             const filteredArray = []
             for (let i = 0; i < data.list.length; i++) {
                 if (data.list[i].dt_txt.includes("00:00:00")) {
