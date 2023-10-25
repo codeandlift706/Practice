@@ -138,14 +138,14 @@ function displayFiveDay(fiveDayObject, filteredArray) {
     cardContainer.innerHTML = "";
     const cityName = fiveDayObject.city.name;
     // console.log(cityName);
-    // console.log(filteredArray);
+    console.log(filteredArray);
 
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array and grab what we need
         const date = filteredArray[i].dt_txt;
         const temp = filteredArray[i].main.temp;
         const wind = filteredArray[i].wind.speed;
         const humidity = filteredArray[i].main.humidity;
-        const icon = filteredArray[i].weather.icon;
+        const icon = filteredArray[i].weather[0].icon;
 
         const dateReformat = new Date(date); //reformat date
         const day = dateReformat.getDate();
