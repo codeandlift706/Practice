@@ -87,11 +87,14 @@ function displayCurrentDay(currentDayObject) {
     const cityName = currentDayObject.name;
     // console.log(cityName);
     // console.log(filteredArray);
+console.log(currentDayObject);
 
     const temp = currentDayObject.main.temp;
     const wind = currentDayObject.wind.speed;
     const humidity = currentDayObject.main.humidity;
+    const icon = currentDayObject.weather[0].icon;
 
+    console.log(icon);
     const now = new Date(); //get current date
     const day = now.getDate();
     const month = now.getMonth() + 1;
@@ -116,6 +119,12 @@ function displayCurrentDay(currentDayObject) {
     const currentCardEl = document.createElement("card"); //create a card for entry
     currentCardContainer.append(currentCardEl); //append to currentCardContainer
     currentCardEl.append(...currentWeatherCardP); //append each p element to the card element
+
+
+    let weatherIcon = document.createElement('img');
+    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`;
+    currentCardEl.appendChild(weatherIcon);
+
 
     const currentDayData = { //create an object with these properties so we can store to local storage
         city: cityName,
@@ -153,28 +162,33 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const year = dateReformat.getFullYear();
         const newDateFormat = `${month}/${day}/${year}`;
 
-        const weatherObject = {
-        date: `${newDateFormat}`,
-        temperature: `${temp}`,
-        windspeed: `${temp}`,
-        humidity: `${temp}`,
-        icon: `https://openweathermap.org/img/wn/${icon}.png`
+
+        const weatherObject = { //create object to store each set of data
+            date: `${newDateFormat}`,
+            temperature: `${temp}`,
+            windspeed: `${wind}`,
+            humidity: `${humidity}`,
         }
-
-
-        const cardEl = document.createElement("card"); //create a card for each entry
+        
+        const cardEl = document.createElement("card"); //create a card for each set
         cardContainer.append(cardEl); //append to cardContainer
+        
+        const weatherDataElement = document.createElement('p');
 
         for (const property in weatherObject) { //for every property in weatherObject
-            const value = weatherObject[property];
-            const weatherDataElement = document.createElement('p');
+            const value = weatherObject.property;
             weatherDataElement.textContent = `${property}: ${value}`;
             cardEl.appendChild(weatherDataElement);
-          }
+        }
+        console.log(weatherObject);
+        
+        let weatherIcon = document.createElement('img');
+        weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`;
+        weatherDataElement.appendChild(weatherIcon);
 
-        //   console.log(weatherDataElement);
 
 
+//save to local storage
         const forecastData = { //create an object with these properties so we can store to local storage
             city: cityName,
             date: newDateFormat,
