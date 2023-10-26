@@ -102,8 +102,7 @@ console.log(currentDayObject);
     const newDateFormat = `${month}/${day}/${year}`;
 
     const currentWeatherCard = (
-        `${cityName}
-        ${newDateFormat}
+        `${newDateFormat}
         temperature: ${temp}°F
         windspeed: ${wind} MPH
         humidity: ${humidity}%`
@@ -117,13 +116,17 @@ console.log(currentDayObject);
     }); //for each string in the new array, set the p to display the text
 
     const currentCardEl = document.createElement("card"); //create a card for entry
+
+    let cityHeader = document.createElement('h2') //create h2 element to append city name
+    cityHeader.textContent = `${cityName}`;
+    currentCardEl.appendChild(cityHeader);
+
+    let weatherIcon = document.createElement('img'); //create img element
+    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`; // set img src = URL
+    currentCardEl.appendChild(weatherIcon);
+
     currentCardContainer.append(currentCardEl); //append to currentCardContainer
     currentCardEl.append(...currentWeatherCardP); //append each p element to the card element
-
-
-    let weatherIcon = document.createElement('img');
-    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`;
-    currentCardEl.appendChild(weatherIcon);
 
 
     const currentDayData = { //create an object with these properties so we can store to local storage
@@ -146,7 +149,6 @@ function displayFiveDay(fiveDayObject, filteredArray) {
 
     cardContainer.innerHTML = "";
     const cityName = fiveDayObject.city.name;
-    // console.log(cityName);
     console.log(filteredArray);
 
     for (let i = 0; i < filteredArray.length; i++) { //loops through the 5 days in the array and grab what we need
@@ -163,29 +165,29 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const newDateFormat = `${month}/${day}/${year}`;
 
 
-        const weatherObject = { //create object to store each set of data
-            date: `${newDateFormat}`,
-            temperature: `${temp}`,
-            windspeed: `${wind}`,
-            humidity: `${humidity}`,
-        }
-        
-        const cardEl = document.createElement("card"); //create a card for each set
-        cardContainer.append(cardEl); //append to cardContainer
-        
-        const weatherDataElement = document.createElement('p');
+        const weatherCard = (
+            `${newDateFormat}
+                temperature: ${temp}°F
+                windspeed: ${wind} MPH
+                humidity: ${humidity}%
+                `
+        ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
-        for (const property in weatherObject) { //for every property in weatherObject
-            const value = weatherObject.property;
-            weatherDataElement.textContent = `${property}: ${value}`;
-            cardEl.appendChild(weatherDataElement);
-        }
-        console.log(weatherObject);
+        const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
+        const weatherCardP = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
+
+        weatherCardP.forEach((p, index) => {
+            p.textContent = weatherCardLines[index];
+        }); //for each string in the new array, set the p to display the text
         
-        let weatherIcon = document.createElement('img');
+        const cardEl = document.createElement("card"); //create a card for each entry
+
+        let weatherIcon = document.createElement('img'); //create img for every icon
         weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`;
-        weatherDataElement.appendChild(weatherIcon);
 
+        cardEl.appendChild(weatherIcon);
+        cardContainer.append(cardEl); //append to cardContainer
+        cardEl.append(...weatherCardP); //append each p element to the cardEl element
 
 
 //save to local storage
