@@ -153,27 +153,27 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const year = dateReformat.getFullYear();
         const newDateFormat = `${month}/${day}/${year}`;
 
-        const weatherCard = (
-            `date: ${newDateFormat}
-                temperature: ${temp}°F
-                windspeed: ${wind} MPH
-                humidity: ${humidity}%
-                icon: https://openweathermap.org/img/wn/${icon}.png`
-        ); //for every entry in filteredArray, create a variable weatherCard to show this info
+        const weatherObject = {
+        date: `${newDateFormat}`,
+        temperature: `${temp}`,
+        windspeed: `${temp}`,
+        humidity: `${temp}`,
+        icon: `https://openweathermap.org/img/wn/${icon}.png`
+        }
 
-
-
-        
-        const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
-        const weatherCardP = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
-
-        weatherCardP.forEach((p, index) => {
-            p.textContent = weatherCardLines[index];
-        }); //for each string in the new array, set the p to display the text
 
         const cardEl = document.createElement("card"); //create a card for each entry
         cardContainer.append(cardEl); //append to cardContainer
-        cardEl.append(...weatherCardP); //append each p element to the cardEl element
+
+        for (const property in weatherObject) { //for every property in weatherObject
+            const value = weatherObject[property];
+            const weatherDataElement = document.createElement('p');
+            weatherDataElement.textContent = `${property}: ${value}`;
+            cardEl.appendChild(weatherDataElement);
+          }
+
+        //   console.log(weatherDataElement);
+
 
         const forecastData = { //create an object with these properties so we can store to local storage
             city: cityName,
