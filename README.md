@@ -40,8 +40,11 @@ This project is under the MIT license.
 The coding (variables, conditional statements, fetch formulas, console logs, functions) -all the additions- that were made to the web page are credited to the curriculum taught in the UCI coding boot camp. The AskBCS learning assistant helped provide guidance with the city buttons and weather icon. A tutor of the boot camp also helped with filtering the API data.
 
 How to make an API call from OpenWeather for a 5-day forecast: https://openweathermap.org/forecast5.
+
 How to make an API call from OpenWeather for the current day: https://openweathermap.org/current.
+
 How to use API keys to set up an API call: https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys.
+
 How to make the API call with a query parameter: https://openweathermap.org/api/geocoding-api. 
 
 Bootstrap CSS framework for the search bar and button styling: https://getbootstrap.com/.
