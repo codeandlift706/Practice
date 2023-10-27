@@ -6,10 +6,6 @@ const currentCardContainer = document.querySelector(".currentCardContainer");
 const cardContainer = document.querySelector(".cardContainer");
 
 
-//need to do:
-//style the page
-
-
 //Functions
 
 //function to observe search click behavior
@@ -97,29 +93,30 @@ console.log(currentDayObject);
     const year = now.getFullYear();
     const newDateFormat = `${month}/${day}/${year}`;
 
-    const currentWeatherCard = (
-        `${newDateFormat}
-        temperature: ${temp} °F
-        windspeed: ${wind} MPH
-        humidity: ${humidity}%`
-    ); //create a variable weatherCard to show this info
-
-    const currentWeatherCardLines = currentWeatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
-    const currentWeatherCardP = currentWeatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
-
-    currentWeatherCardP.forEach((p, index) => {
-        p.textContent = currentWeatherCardLines[index];
-    }); //for each string in the new array, set the p to display the text
-
+    
     const currentCardEl = document.createElement("card"); //create a card for entry
-
-    let cityHeader = document.createElement('h2') //create h2 element to append city name
-    cityHeader.textContent = `${cityName}`;
+    
+    let cityHeader = document.createElement('h1') //create h2 element to append city name
+    cityHeader.textContent = `${cityName} ${newDateFormat}`;
     currentCardEl.appendChild(cityHeader);
-
+    
     let weatherIcon = document.createElement('img'); //create img element
     weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`; // set img src = URL
     currentCardEl.appendChild(weatherIcon);
+    
+    const currentWeatherCard = (
+        `
+        Temp: ${temp} °F
+        Wind: ${wind} MPH
+        Humidity: ${humidity}%`
+    ); //create a variable weatherCard to show this info
+
+    const currentWeatherCardLines = currentWeatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
+    const currentWeatherCardP = currentWeatherCardLines.map(line => document.createElement('h4')); //create a new p element for each string in the array, map through each string
+
+    currentWeatherCardP.forEach((h4, index) => {
+        h4.textContent = currentWeatherCardLines[index];
+    }); //for each string in the new array, set the p to display the text
 
     currentCardContainer.append(currentCardEl); //append to currentCardContainer
     currentCardEl.append(...currentWeatherCardP); //append each p element to the card element
@@ -160,23 +157,26 @@ function displayFiveDay(fiveDayObject, filteredArray) {
         const year = dateReformat.getFullYear();
         const newDateFormat = `${month}/${day}/${year}`;
 
+        const cardEl = document.createElement("card"); //create a card for each entry
+        let dateHeader = document.createElement('h4') //create h2 element to append city name
+        dateHeader.textContent = `${newDateFormat}`;
+        cardEl.appendChild(dateHeader);
 
         const weatherCard = (
-            `${newDateFormat}
-                temperature: ${temp}°F
-                windspeed: ${wind} MPH
-                humidity: ${humidity}%
+            `
+                Temp: ${temp}°F
+                Wind: ${wind} MPH
+                Humidity: ${humidity}%
                 `
         ); //for every entry in filteredArray, create a variable weatherCard to show this info
 
         const weatherCardLines = weatherCard.split('\n'); //split the weatherCard string into an array of strings using '\n' to create a new line
-        const weatherCardP = weatherCardLines.map(line => document.createElement('p')); //create a new p element for each string in the array, map through each string
+        const weatherCardP = weatherCardLines.map(line => document.createElement('h5')); //create a new p element for each string in the array, map through each string
 
-        weatherCardP.forEach((p, index) => {
-            p.textContent = weatherCardLines[index];
+        weatherCardP.forEach((h5, index) => {
+            h5.textContent = weatherCardLines[index];
         }); //for each string in the new array, set the p to display the text
         
-        const cardEl = document.createElement("card"); //create a card for each entry
 
         let weatherIcon = document.createElement('img'); //create img for every icon
         weatherIcon.src = `https://openweathermap.org/img/wn/${icon}.png`;
