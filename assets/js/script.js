@@ -5,13 +5,8 @@ const searchedCitiesContainer = document.querySelector(".searchedCitiesContainer
 const currentCardContainer = document.querySelector(".currentCardContainer");
 const cardContainer = document.querySelector(".cardContainer");
 
-//API INFORMATION
-// For symbol=
-// list.weather.icon
 
 //need to do:
-//how to get the API weather icon -- strings cannot store complex data so that's why the icon isnt showing
-//how do you retrieve weather consistently for the next 5 days? I am getting weather for next 5 days that includes "00:00:00" only
 //style the page
 
 
@@ -32,6 +27,7 @@ function searchCity(event) {
     inputField.value = "";
 
     const cityButtonEl = document.createElement("button"); //create a button for each city searched
+    cityButtonEl.setAttribute('class',"btn btn-outline-dark");
     cityButtonEl.textContent = userInput;
 
     cityButtonEl.addEventListener("click", function (event) { //attach event listener for the city button
@@ -103,7 +99,7 @@ console.log(currentDayObject);
 
     const currentWeatherCard = (
         `${newDateFormat}
-        temperature: ${temp}°F
+        temperature: ${temp} °F
         windspeed: ${wind} MPH
         humidity: ${humidity}%`
     ); //create a variable weatherCard to show this info

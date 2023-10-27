@@ -1,5 +1,4 @@
 :root {
-    background-color: #FDB927;
     --list-color: rgb(123, 69, 123);
     --largest-font: 50px;
     --larger-font: 40px;
@@ -7,8 +6,14 @@
     --medium-font: 25px;
     --small-font: 20px;
     --centered: center;
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
 }
+
+body {
+    background-color: #CDB4DB;
+    color: black;
+    font-family: 'Tilt Neon', sans-serif;
+}
+
 
 main {
     display: flex;
@@ -17,29 +22,65 @@ main {
 .searchCardContainer {
     width: 25%;
     height: 300%;
+    padding: 5px;
 }
 
-.searchedCitiesContainer { 
+#searchCardFormEl {
+    margin-bottom: 7px;
+}
+
+#searchCardInput {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.searchBtn {
+    margin-top: 6px;
+}
+
+.resetBtn {
+    margin-top: 6px;
+}
+
+.searchCardContainer {
+    height: 100%;
+}
+
+.searchedCitiesContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-} 
+}
 
 .allCardsContainer {
     display: flex;
     flex-direction: column;
+    /* background-color: #B298DC;
+    border-radius: 10px;
+    margin-left: 0.2rem;
+    width: 90%;
+    margin-right: 0.5rem */
 
 }
 
 .currentCardContainer {
     display: flex;
-    justify-content:flex-start;
-    }
+    justify-content: flex-start;
+    background-color: #B298DC;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 0.5rem 0.5rem 0.2rem;
+}
 
 
 .cardContainer {
-display: flex;
-justify-content:space-around;
+    display: flex;
+    justify-content: space-around;
+    background-color: #B298DC;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0.2rem 0.5rem 0.5rem 0.2rem;
 }
 
 card {
@@ -49,6 +90,12 @@ card {
 
 .headerEl {
     font-size: var(--largest-font);
+    text-align: var(--centered);
 }
 
-
+/* button {
+    width: 200px;
+    padding: 10px;
+    border: 2px solid black;
+    margin: 1px;
+} */
